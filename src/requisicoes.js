@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function login(req, res) {
   axios
-    .post(`${import.meta.env.VITE_API_URL}`, req)
+    .post(`${API_URL}`, req)
     .then((response) => {
       res(response, false);
     })
@@ -13,7 +15,7 @@ export function login(req, res) {
 
 export function signup(signupObj, callback) {
   axios
-    .post(`${import.meta.env.VITE_API_URL}/cadastro`, signupObj)
+    .post(`${API_URL}/cadastro`, signupObj)
     .then((response) => {
       callback(response, false);
     })
@@ -24,7 +26,7 @@ export function signup(signupObj, callback) {
 
 export function getTransactions(token, callback) {
   axios
-    .get(`${import.meta.env.VITE_API_URL}/home`, {
+    .get(`${API_URL}/home`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {
@@ -38,7 +40,7 @@ export function getTransactions(token, callback) {
 export function newTransaction(token, callback, type, transactionObj) {
   axios
     .post(
-      `${import.meta.env.VITE_API_URL}/nova-transacao/${type}`,
+      `${API_URL}/nova-transacao/${type}`,
       transactionObj,
       { headers: { Authorization: `Bearer ${token}` } }
     )
