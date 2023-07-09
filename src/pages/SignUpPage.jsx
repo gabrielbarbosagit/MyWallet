@@ -30,12 +30,20 @@ export default function SignUpPage() {
   }
 
   function handleSignUpSuccess(response, error) {
+    console.log('Response:', response);
+    console.log('Error:', error);
+  
     setLoading(false);
     if (error) {
-      return alert(response.response.data.message);
+      if (response && response.response && response.response.data) {
+        return alert(response.response.data.message);
+      } else {
+        return alert('Erro ao realizar o cadastro');
+      }
     }
     // Sucesso no cadastro
   }
+  
 
   return (
     <SignUpContainer>
