@@ -1,8 +1,52 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
-import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai" 
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { getTransactions } from "../requisicoes"
+
+
 
 export default function HomePage() {
+
+  const [transactions, setTransactions] = useState([]);
+  const [user, setUser] = useState('Usuário');
+  const [balance, setBalance] = useState(0);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/');
+      return;
+    }
+    getTransactions(localStorage.getItem('token'), updateTransactions);
+  }, []);
+  
+  function updateTransactions(data, error) {
+    if (error) {
+      console.log(data);
+      return;
+    }
+    
+    setTransactions(data.transactions.reverse());
+    setUser(data.username);
+    setBalance(data.balance);
+  }
+  
+  function logout() {
+    localStorage.removeItem('token');
+    navigate('/');
+  }
+  
+
+  
+
+    
+
+
+
+
+
   return (
     <HomeContainer>
       <Header>
